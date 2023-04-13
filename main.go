@@ -2,10 +2,11 @@ package main
 
 import (
 	"gioui.org/app"
-	"gioui.org/font/gofont"
+	"gioui.org/font/opentype"
 	"gioui.org/io/system"
 	"gioui.org/layout"
 	"gioui.org/op"
+	"gioui.org/text"
 	"gioui.org/widget"
 	"gioui.org/widget/material"
 	"log"
@@ -24,7 +25,11 @@ func main() {
 func Run() error {
 	var ops op.Ops
 	window := app.NewWindow()
-	th := material.NewTheme(gofont.Collection())
+	face, err := opentype.Parse(TTF)
+	if err != nil {
+		return err
+	}
+	th := material.NewTheme([]text.FontFace{{Face: face}})
 	var editor widget.Editor
 
 	for ev := range window.Events() {
